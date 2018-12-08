@@ -278,7 +278,21 @@ class FGO_Scripts():
                     break
                 elif self.current_state == "BATTLE":
                     continue
-                self.click(BOTTOM["APPLE"])
+                rd = get_round(self.image)
+                if rd == -1:
+                    print(1234)
+                    while True:
+                        windll.user32.SetCursorPos(298,213)    #鼠标移动到
+                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)    #左键按下
+                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+                        time.sleep(3)
+                        self.get_state()
+                        if is_comfirm(self.image):
+                            print(3456)
+                            self.click(50)
+                            break
+                # self.click(BOTTOM["APPLE"])
+                self.click(90)
                 time.sleep(1)
         
         self.end()

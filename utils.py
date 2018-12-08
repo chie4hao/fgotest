@@ -144,7 +144,7 @@ def getstate(image, s = None):
     print(b==(123,124,124))
     '''
 
-    image.save("test.png")
+    # image.save("test.png")
     if s:
         search_state = s
     else:
@@ -152,7 +152,7 @@ def getstate(image, s = None):
     
     for i in search_state:
         img = Crop(image, BOXS[i])
-        img.save(i+".png")
+        # img.save(i+".png")
         if IMAGES[i]:
             if Compare(img, IMAGES[i]):
                 return i
@@ -206,6 +206,13 @@ def Compare_support(img1, img2, size = (64, 64)):
         return True
     else:
         return False
+
+def is_comfirm(image):
+    image = Crop_Border(image)
+    if image.getpixel((736,376))==(0xff,0,0) and image.getpixel((746,555))==(0xdc,0xdc,0xdc)\
+        and image.getpixel((770,560))==(5,5,5)and image.getpixel((898,575))==(0x33,0x33,0x33):
+        return True
+    return False
 
 def is_requiresupport(image):
     # return -1
@@ -275,6 +282,9 @@ def get_round(image):
         return 1
     elif image.getpixel((867, 16))==(118,118,118) and image.getpixel((875,16)) == (194,194,194) and image.getpixel((875,27))==(198,198,198) and image.getpixel((867,33))==(174,174,174):
         return 2
+    elif image.getpixel((273,158))==(0xc3,0x92,0x70) and image.getpixel((282,159))==(0x47,0x42,0x46)\
+        and image.getpixel((282,162))==(0x55,0xe9,0xd3)and image.getpixel((316,162))==(0xfb,0xc6,0x88):
+        return -1
     else:
         return 3
     
