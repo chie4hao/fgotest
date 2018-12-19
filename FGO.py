@@ -28,7 +28,7 @@ BOTTOM = {
 
 SKILL = [56, 57, 65, 66, 67, 68, 69, 70, 71]   #9 skill
 M_SKILL = [72, 73, 74, 75]                     #4 master skill bottom
-ORIENT = [76, 77, 78]                          #3 use orient
+ORIENT = [76, 77, 78, 187]                          #3 use orient
 CHANGE = [88, 89, 90]                          # x, y, z
 
 LONG_TIME = 3
@@ -77,9 +77,16 @@ class FGO_Scripts():
 
     def __init__(self, classname = "BS2CHINAUI", titlename = "BlueStacks App Player", stratege = Fgo_stratege(), debug = False):
         self.hwnd = win32gui.FindWindow(classname, titlename)
+        print(self.hwnd)
         hwndChildList = []     
-        # win32gui.EnumChildWindows(self.hwnd, lambda hwnd, param: param.append(hwnd),  hwndChildList)
+        win32gui.EnumChildWindows(self.hwnd, lambda hwnd, param: param.append(hwnd),  hwndChildList)
+
         # print(hwndChildList)
+        for i in hwndChildList:
+            if(win32gui.GetClassName(i)=="BlueStacksApp"):
+                self.hwnd=i
+                break
+        # print(self.hwnd)
         '''
         for hwnd in hwndChildList:
             left, top, right, bot = win32gui.GetWindowRect(hwnd)
@@ -100,6 +107,28 @@ class FGO_Scripts():
     ##########################################################
     def start(self, epo = 10000):
         """循环函数"""
+
+        self.click_wait_time = 0.2
+        # 抽卡池
+        image = capture(self.hwnd)
+        if is_pool(image):
+            while True:
+                image = capture(self.hwnd)
+                if (if_pool_re(image)):
+                    self.click(54)
+                    time.sleep(2)
+                    self.click(50)
+                    while True:
+                        self.click(54)
+                        image = capture(self.hwnd)
+                        if (is_pool(image)):
+                            break
+                        time.sleep(1)
+                else: 
+                    for i in range(10):
+                        self.click(53)
+
+
         for i, _ in enumerate(range(epo)):
             print("Star epoch:",i + 1, "------------------------")
             start = time.time()
@@ -131,18 +160,25 @@ class FGO_Scripts():
         """
         #click check point
         self.click_wait_time = LONG_TIME
-        self.click(BOTTOM["CHECK_POINT"])
+        # self.click(BOTTOM["CHECK_POINT"])
 
+        '''
         while True:
             if self.get_state(["APPLE"]) == "APPLE":
                 #click apple and click decision
                 self.click(BOTTOM["APPLE"])
                 self.click(BOTTOM["DECISION"])
-                continue
-            else:
-                if is_support(self.image):
-                    break
-                self.click(BOTTOM["CHECK_POINT"])
+                time.sleep(1)
+            else
+                break
+        '''
+
+        while True:
+            self.get_state()
+            if is_support(self.image):
+                break
+            self.click(48)
+            time.sleep(1)
 
         # choose support
         while True:
@@ -206,7 +242,8 @@ class FGO_Scripts():
                             break
                         else:
                             print("choose support ERROR")
-
+                            time.sleep(1)
+                            break
 
         #clik start mision
         self.click(BOTTOM["STRAT"])
@@ -262,7 +299,17 @@ class FGO_Scripts():
                 self.click_wait_time = SHORT_TIME
             
                 self.click(pcards)
-                
+
+                time.sleep(3)
+                while(True):
+                    image = capture(self.hwnd)
+                    if is_pcards(image):
+                        self.click([80, 81, 82, 83, 84])
+                        time.sleep(0.8)
+                    else:
+                        break
+
+
                 #wait to next step
                 if self.debug:
                     print("Current state:", self.current_state)
@@ -278,6 +325,7 @@ class FGO_Scripts():
                     break
                 elif self.current_state == "BATTLE":
                     continue
+                '''
                 rd = get_round(self.image)
                 if rd == -1:
                     print(1234)
@@ -286,11 +334,12 @@ class FGO_Scripts():
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)    #左键按下
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
                         time.sleep(3)
-                        self.get_state()
+                        image = capture(self.hwnd)
                         if is_comfirm(self.image):
                             print(3456)
                             self.click(50)
                             break
+                '''
                 # self.click(BOTTOM["APPLE"])
                 self.click(90)
                 time.sleep(1)
@@ -322,7 +371,7 @@ class FGO_Scripts():
         """
         image = capture(self.hwnd)
         self.image = image
-        state = getstate(image, state)
+        state = getstate(self, image, state)
         if state:
             print("current state:", state)
         return state

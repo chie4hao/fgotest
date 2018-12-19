@@ -22,7 +22,29 @@ skills3 = [[SKILL[0],ORIENT[1],SKILL[2],ORIENT[1],SKILL[6],ORIENT[1]],
     [SKILL[1],SKILL[7],M_SKILL[0],M_SKILL[2],ORIENT[1]]
     ]
 
+    # 狗粮 
+skills4 = [[SKILL[0],SKILL[2],SKILL[3]],
+    [SKILL[1],SKILL[5]],
+    [SKILL[4],SKILL[7],SKILL[8],ORIENT[1]]
+    ]
+    
+    # 绿礼装狂兰(刷彩钢)
+skills5 = [[SKILL[0],ORIENT[1],SKILL[6],ORIENT[1]],
+    [SKILL[2],ORIENT[1],SKILL[5],M_SKILL[0],M_SKILL[3],ORIENT[1]], 
+    [SKILL[8],ORIENT[1],SKILL[7],SKILL[1],M_SKILL[0],M_SKILL[1]]
+    ]
 
+    # 刷勋章。。。。
+skills6 = [[SKILL[2],SKILL[3],ORIENT[2],SKILL[4],SKILL[5],M_SKILL[0],M_SKILL[3],ORIENT[0],ORIENT[2],ORIENT[3]],
+    [SKILL[6],SKILL[7]],
+    [SKILL[1],SKILL[3],ORIENT[0],SKILL[4],SKILL[5],ORIENT[0]]
+]   
+
+    # 万华镜阿脚
+skills7 = [[SKILL[0],ORIENT[1],SKILL[6],ORIENT[1],SKILL[3]],
+    [SKILL[2],ORIENT[1],SKILL[5]], 
+    [SKILL[8],ORIENT[1],M_SKILL[0],M_SKILL[3],ORIENT[1]]
+    ]
 # (13,40) 起始坐标
 
 def dog():
@@ -43,8 +65,9 @@ def simple():
 
 def chie4():
     cards = ["R", "R", "R"]
-    skills = skills1
-    ultimate = [[1], [1], [1]]
+    skills = skills7
+    # ultimate = [[1], [1], [1]]
+    ultimate = [[1],[1],[1]]
     stratege = Fgo_stratege(cards=cards, skills=skills, ultimate=ultimate)
     script = FGO_Scripts(stratege=stratege, debug=True)
     script.start(epo=1400)
