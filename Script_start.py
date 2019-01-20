@@ -45,7 +45,17 @@ skills7 = [[SKILL[0],ORIENT[1],SKILL[6],ORIENT[1],SKILL[3]],
     [SKILL[2],ORIENT[1],SKILL[5]], 
     [SKILL[8],ORIENT[1],M_SKILL[0],M_SKILL[3],ORIENT[1]]
     ]
-# (13,40) 起始坐标
+    # 万华镜ass
+skills8 = [[SKILL[0],ORIENT[1],SKILL[6],ORIENT[1],SKILL[3]],
+    [SKILL[1],SKILL[2],ORIENT[1],SKILL[5],ORIENT[1]], 
+    [SKILL[8],ORIENT[1],M_SKILL[0],M_SKILL[2],ORIENT[1]]
+    ] 
+
+    # 万华镜伯爵
+skills9 = [[SKILL[0],ORIENT[1],SKILL[6],ORIENT[1],SKILL[5]],
+    [SKILL[2],ORIENT[1]], 
+    [SKILL[8],ORIENT[1],SKILL[1],SKILL[7],M_SKILL[2],M_SKILL[2],ORIENT[1]]
+    ]
 
 def dog():
     #默认狗粮脚本 使用自爆弓孔明三回合
@@ -65,7 +75,7 @@ def simple():
 
 def chie4():
     cards = ["R", "R", "R"]
-    skills = skills7
+    skills = skills8
     # ultimate = [[1], [1], [1]]
     ultimate = [[1],[1],[1]]
     stratege = Fgo_stratege(cards=cards, skills=skills, ultimate=ultimate)

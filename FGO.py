@@ -173,11 +173,11 @@ class FGO_Scripts():
                 break
         '''
 
+        # self.get_state()
         while True:
             self.get_state()
             if is_support(self.image):
                 break
-            self.click(48)
             time.sleep(1)
 
         # choose support

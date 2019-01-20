@@ -113,7 +113,7 @@ def getcolor(image):
     array = image - np.expand_dims(c_min, axis=2)
     c_max = [np.max(array[:,:,i]) for i in range(3)]
     c_sum = [np.sum(array[:,:,i]) for i in range(3)]
-    if (c_max > np.array([233, 233, 233])).any():
+    if (c_max > np.array([230, 230, 230])).any():
         idx = np.argmax(c_sum)
         color = COLOR[idx]
         return color
@@ -160,7 +160,15 @@ def getstate(self, image, s = None):
                     self.click(49)
                     self.click(50)
                     time.sleep(1)
-                    break
+                    while True:
+                        image = capture(self.hwnd)
+                        self.image=image
+                        if is_support(self.image):
+                            break
+                        time.sleep(1)
+                if i == "HOME":
+                    self.click(48)
+                    time.sleep(1)
                 return i
     # print(image.getpixel((1006,682)))
     # if image.getpixel((949, 675))==(0xB4,0xAF,0x9E) and image.getpixel((1006,682)) == (0xD2,0xD2,0xD2) and image.getpixel((1059,693))==(0x5A,0x66,0x75) and image.getpixel((1155,685))==(0x2C,0x33,0x68):
@@ -203,7 +211,8 @@ def getstate(self, image, s = None):
 def is_support(image):
     # image = Crop_Border(image)
     # print(image.getpixel((859,275)))
-    if image.getpixel((843,258))==(21,106,1) and image.getpixel((928,258))==(25,59,116) and image.getpixel((1013,258))==(123,17,8):
+    if image.getpixel((843,258))==(21,106,1) and image.getpixel((928,258))==(25,59,116)\
+        and image.getpixel((1013,258))==(123,17,8):
         return True
     return False
 
@@ -215,16 +224,23 @@ def is_pcards(image):
     return False
 
 # 师匠红茶学妹
+'''
 require =[
     (51, 326, 96, 126, 172), (129,340, 203, 159, 176), (162,351, 255, 241, 233), (191, 359, 248, 251, 179),
     (57, 288, 216, 158, 249), (80, 266, 69, 31, 67), (143, 260, 167, 77, 77), (190, 286, 195, 222, 118),
     (1138, 343, 0x7E, 0xB2, 0x37), (1160, 332, 0xDF, 0xFF, 0xAD)]
+'''
 '''
 require =[
     (51, 326, 103, 134, 173), (129,340, 231, 182, 206), (162,351, 255, 241, 230), (191, 359, 248, 251, 179),
     (57, 288, 216, 158, 249), (80, 266, 62, 22, 71), (143, 260, 156, 59, 59), (190, 286, 195, 222, 118),
     (1138, 343, 0x7E, 0xB2, 0x37), (1160, 332, 0xDF, 0xFF, 0xAD)]
 '''
+require =[
+    (51, 326, 0x5e, 0x82, 0xb8), (129,340, 0xc6, 0x94, 0xd7), (162,351, 255, 241, 233), (191, 359, 248, 251, 179),
+    (57, 288, 216, 158, 249), (80, 266, 0x3d, 0x1a, 0x45), (143, 260, 0xbd, 0x31, 0x38), (190, 286, 195, 222, 118),
+    (1138, 343, 0x85, 0xb7, 0x33), (1160, 332, 0xe1, 0xfe, 0xaf)]
+
 '''
 # 蒙娜丽莎
 require =[(61,335,73,96,192),(110,353,22,47,72),(130,364,255,189,148),(190,358,254,254,168),
